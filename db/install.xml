@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/commandroom/db" VERSION="2026042209" COMMENT="XMLDB file for mod_commandroom"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
+    <TABLES>
+
+        <TABLE NAME="commandroom" COMMENT="Main table for commandroom instances">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
+                <FIELD NAME="intro" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="timesteplabel" TYPE="char" LENGTH="50" NOTNULL="true" DEFAULT="period"/>
+                <FIELD NAME="stepduration" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="1"/>
+                <FIELD NAME="stepdurationunit" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="iteration"/>
+                <FIELD NAME="totaliterations" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="1"/>
+                <FIELD NAME="useshocks" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="systembrief" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="studentdecision" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="learninggoal" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="riskychoice" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="safechoice" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="nodeinventory" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="presetkey" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT="custom"/>
+                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="courseidx" UNIQUE="false" FIELDS="course"/>
+            </INDEXES>
+        </TABLE>
+
+        <TABLE NAME="commandroom_nodes" COMMENT="Nodes belonging to a commandroom instance">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="commandroomid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
+                <FIELD NAME="nodetype" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="stock"/>
+                <FIELD NAME="initialvalue" TYPE="number" LENGTH="20" DECIMALS="5" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="minimumvalue" TYPE="number" LENGTH="20" DECIMALS="5" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="maximumvalue" TYPE="number" LENGTH="20" DECIMALS="5" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="studentcontrolled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="visibletostudents" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
+                <FIELD NAME="svgfileitemid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="updateconfig" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="visualconfig" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="calculationconfig" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="unitlabel" TYPE="char" LENGTH="100" NOTNULL="false"/>
+                <FIELD NAME="interpretation" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="displayorder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="commandroomidx" UNIQUE="false" FIELDS="commandroomid"/>
+                <INDEX NAME="commandroomorderidx" UNIQUE="false" FIELDS="commandroomid, displayorder"/>
+            </INDEXES>
+        </TABLE>
+
+        <TABLE NAME="commandroom_edges" COMMENT="Directed relationships between nodes">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="commandroomid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="sourcenodeid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="targetnodeid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="relationtype" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="linear"/>
+                <FIELD NAME="strength" TYPE="number" LENGTH="20" DECIMALS="5" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="delayiterations" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="functionconfig" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="polarity" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="neutral"/>
+                <FIELD NAME="label" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="loopgroup" TYPE="char" LENGTH="100" NOTNULL="false"/>
+                <FIELD NAME="curvature" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="visibletostudents" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="commandroomidx" UNIQUE="false" FIELDS="commandroomid"/>
+                <INDEX NAME="sourceidx" UNIQUE="false" FIELDS="sourcenodeid"/>
+                <INDEX NAME="targetidx" UNIQUE="false" FIELDS="targetnodeid"/>
+                <INDEX NAME="sourcetargetidx" UNIQUE="false" FIELDS="sourcenodeid, targetnodeid"/>
+            </INDEXES>
+        </TABLE>
+
+        <TABLE NAME="commandroom_shocks" COMMENT="Scheduled or random shocks applied during simulation">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="commandroomid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="nodeid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="iterationno" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="1"/>
+                <FIELD NAME="adjustment" TYPE="number" LENGTH="20" DECIMALS="5" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="shocktype" TYPE="char" LENGTH="30" NOTNULL="true" DEFAULT="scheduled"/>
+                <FIELD NAME="minadjustment" TYPE="number" LENGTH="20" DECIMALS="5" NOTNULL="false"/>
+                <FIELD NAME="maxadjustment" TYPE="number" LENGTH="20" DECIMALS="5" NOTNULL="false"/>
+                <FIELD NAME="applyeveryiteration" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="visibletostudents" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="commandroomidx" UNIQUE="false" FIELDS="commandroomid"/>
+                <INDEX NAME="nodeiterationidx" UNIQUE="false" FIELDS="nodeid, iterationno"/>
+                <INDEX NAME="shocktypeidx" UNIQUE="false" FIELDS="shocktype"/>
+            </INDEXES>
+        </TABLE>
+
+        <TABLE NAME="commandroom_runs" COMMENT="A group run of the simulation">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="commandroomid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="groupid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="leaderid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="status" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="draft"/>
+                <FIELD NAME="currentiteration" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="totaliterations" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="scenarioversion" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="1"/>
+                <FIELD NAME="timesubmitted" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="submittedby" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="timeinvalidated" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="invalidatedreason" TYPE="char" LENGTH="100" NOTNULL="false"/>
+                <FIELD NAME="finalscore" TYPE="number" LENGTH="20" DECIMALS="5" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="timecompleted" TYPE="int" LENGTH="10" NOTNULL="false"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="commandroomidx" UNIQUE="false" FIELDS="commandroomid"/>
+                <INDEX NAME="groupidx" UNIQUE="false" FIELDS="groupid"/>
+                <INDEX NAME="statusidx" UNIQUE="false" FIELDS="status"/>
+                <INDEX NAME="commandroomgroupidx" UNIQUE="false" FIELDS="commandroomid, groupid"/>
+            </INDEXES>
+        </TABLE>
+
+
+        <TABLE NAME="commandroom_group_leaders" COMMENT="Configured group leaders for a commandroom activity">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="commandroomid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="groupid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="leaderid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="commandroomidx" UNIQUE="false" FIELDS="commandroomid"/>
+                <INDEX NAME="groupidx" UNIQUE="false" FIELDS="groupid"/>
+                <INDEX NAME="leaderidx" UNIQUE="false" FIELDS="leaderid"/>
+                <INDEX NAME="commandroomgroupuidx" UNIQUE="true" FIELDS="commandroomid, groupid"/>
+            </INDEXES>
+        </TABLE>
+
+        <TABLE NAME="commandroom_submissions" COMMENT="Final submitted snapshots of runs">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="commandroomid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="runid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="groupid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="scenarioversion" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="1"/>
+                <FIELD NAME="submittedby" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="snapshotjson" TYPE="text" NOTNULL="true"/>
+                <FIELD NAME="finaliteration" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="runidx" UNIQUE="false" FIELDS="runid"/>
+                <INDEX NAME="groupidx" UNIQUE="false" FIELDS="groupid"/>
+            </INDEXES>
+        </TABLE>
+
+        <TABLE NAME="commandroom_proposals" COMMENT="Student proposals for controllable nodes">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="runid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="nodeid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="proposedvalue" TYPE="number" LENGTH="20" DECIMALS="5" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="rationale" TYPE="text" NOTNULL="true"/>
+                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="runidx" UNIQUE="false" FIELDS="runid"/>
+                <INDEX NAME="nodeidx" UNIQUE="false" FIELDS="nodeid"/>
+                <INDEX NAME="useridx" UNIQUE="false" FIELDS="userid"/>
+                <INDEX NAME="runnodeuseruidx" UNIQUE="true" FIELDS="runid, nodeid, userid"/>
+                <INDEX NAME="runnodeidx" UNIQUE="false" FIELDS="runid, nodeid"/>
+            </INDEXES>
+        </TABLE>
+
+        <TABLE NAME="commandroom_decisions" COMMENT="Leader decisions for each controllable node">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="runid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="nodeid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="leaderid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="decisiontype" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="mean"/>
+                <FIELD NAME="selectedvalue" TYPE="number" LENGTH="20" DECIMALS="5" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="runidx" UNIQUE="false" FIELDS="runid"/>
+                <INDEX NAME="nodeidx" UNIQUE="false" FIELDS="nodeid"/>
+                <INDEX NAME="leaderidx" UNIQUE="false" FIELDS="leaderid"/>
+                <INDEX NAME="runnodeuidx" UNIQUE="true" FIELDS="runid, nodeid"/>
+                <INDEX NAME="runnodeleaderidx" UNIQUE="false" FIELDS="runid, nodeid, leaderid"/>
+            </INDEXES>
+        </TABLE>
+
+        <TABLE NAME="commandroom_results" COMMENT="Calculated node values per iteration for each run">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="runid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="iterationno" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="nodeid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="nodevalue" TYPE="number" LENGTH="20" DECIMALS="5" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="valueorigin" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="system"/>
+                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="runidx" UNIQUE="false" FIELDS="runid"/>
+                <INDEX NAME="nodeidx" UNIQUE="false" FIELDS="nodeid"/>
+                <INDEX NAME="runiterationidx" UNIQUE="false" FIELDS="runid, iterationno"/>
+                <INDEX NAME="runiterationnodeuidx" UNIQUE="true" FIELDS="runid, iterationno, nodeid"/>
+            </INDEXES>
+        </TABLE>
+
+        <TABLE NAME="commandroom_exports" COMMENT="Stored import/export payload metadata for reusable systems">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="commandroomid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
+                <FIELD NAME="jsonhash" TYPE="char" LENGTH="64" NOTNULL="true" DEFAULT=""/>
+                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="commandroomidx" UNIQUE="false" FIELDS="commandroomid"/>
+                <INDEX NAME="useridx" UNIQUE="false" FIELDS="userid"/>
+            </INDEXES>
+        </TABLE>
+        
+        
+        
+        
+    </TABLES>
+</XMLDB>

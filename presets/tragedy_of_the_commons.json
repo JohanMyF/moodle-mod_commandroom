@@ -1,0 +1,445 @@
+{
+  "metadata": {
+    "plugin": "mod_commandroom",
+    "pluginname": "Situation Room",
+    "version": "first-release-archetype",
+    "archetype": "tragedy_of_the_commons",
+    "timesteplabel": "season",
+    "stepduration": 1,
+    "stepdurationunit": "season",
+    "totaliterations": 24,
+    "useshocks": false
+  },
+  "nodes": [
+    {
+      "ref": "shared_resource",
+      "name": "Shared Resource",
+      "description": "The common resource available to everyone, such as grazing land, fish stock, or groundwater.",
+      "unitlabel": "resource units",
+      "interpretation": "The resource regenerates but is reduced by extraction.",
+      "nodetype": "stock",
+      "initialvalue": 800,
+      "minvalue": 0,
+      "maxvalue": 1000,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 1,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 6,
+        "y": 5,
+        "w": 4,
+        "h": 3
+      },
+      "updateconfig": {
+        "mode": "stock_with_rate",
+        "base": "self",
+        "inflows": [
+          "total_regeneration"
+        ],
+        "outflows": [
+          "total_extraction"
+        ],
+        "adds": [
+          "total_regeneration"
+        ],
+        "subtracts": [
+          "total_extraction"
+        ]
+      }
+    },
+    {
+      "ref": "extraction_effort",
+      "name": "Extraction Effort",
+      "description": "How aggressively users harvest the common resource.",
+      "unitlabel": "effort units",
+      "nodetype": "variable",
+      "initialvalue": 25,
+      "minvalue": 0,
+      "maxvalue": 80,
+      "studentcontrolled": true,
+      "visibletostudents": true,
+      "displayorder": 2,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 2,
+        "y": 2,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "conservation_effort",
+      "name": "Conservation Effort",
+      "description": "Effort invested in protecting or restoring the common resource.",
+      "unitlabel": "effort units",
+      "nodetype": "variable",
+      "initialvalue": 10,
+      "minvalue": 0,
+      "maxvalue": 80,
+      "studentcontrolled": true,
+      "visibletostudents": true,
+      "displayorder": 3,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 11,
+        "y": 2,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "extraction_rate",
+      "name": "Extraction Rate",
+      "description": "Resource removed per unit of extraction effort.",
+      "unitlabel": "resource/effort",
+      "nodetype": "variable",
+      "initialvalue": 8,
+      "minvalue": 0,
+      "maxvalue": 20,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 4,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 2,
+        "y": 6,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "regeneration_rate",
+      "name": "Natural Regeneration Rate",
+      "description": "Natural growth rate of the resource.",
+      "unitlabel": "rate",
+      "nodetype": "variable",
+      "initialvalue": 0.06,
+      "minvalue": 0,
+      "maxvalue": 0.2,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 5,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 11,
+        "y": 6,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "recovery_effect",
+      "name": "Conservation Recovery Effect",
+      "description": "Extra regeneration produced by conservation effort.",
+      "unitlabel": "resource/effort",
+      "nodetype": "variable",
+      "initialvalue": 3,
+      "minvalue": 0,
+      "maxvalue": 20,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 6,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 14,
+        "y": 6,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "total_extraction",
+      "name": "Total Extraction",
+      "description": "Total resource removed this season.",
+      "unitlabel": "resource units",
+      "nodetype": "computed",
+      "initialvalue": 200,
+      "minvalue": 0,
+      "maxvalue": 1000,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 7,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 4,
+        "y": 8,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "multiply",
+        "left": {
+          "kind": "node",
+          "ref": "extraction_effort"
+        },
+        "right": {
+          "kind": "node",
+          "ref": "extraction_rate"
+        }
+      }
+    },
+    {
+      "ref": "natural_regeneration",
+      "name": "Natural Regeneration",
+      "description": "Natural resource recovery based on the current resource level.",
+      "unitlabel": "resource units",
+      "nodetype": "computed",
+      "initialvalue": 48,
+      "minvalue": 0,
+      "maxvalue": 200,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 8,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 9,
+        "y": 8,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "multiply",
+        "left": {
+          "kind": "node",
+          "ref": "shared_resource"
+        },
+        "right": {
+          "kind": "node",
+          "ref": "regeneration_rate"
+        }
+      }
+    },
+    {
+      "ref": "conservation_recovery",
+      "name": "Conservation Recovery",
+      "description": "Additional recovery created by conservation effort.",
+      "unitlabel": "resource units",
+      "nodetype": "computed",
+      "initialvalue": 30,
+      "minvalue": 0,
+      "maxvalue": 300,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 9,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 13,
+        "y": 8,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "multiply",
+        "left": {
+          "kind": "node",
+          "ref": "conservation_effort"
+        },
+        "right": {
+          "kind": "node",
+          "ref": "recovery_effect"
+        }
+      }
+    },
+    {
+      "ref": "total_regeneration",
+      "name": "Total Regeneration",
+      "description": "Natural regeneration plus conservation recovery.",
+      "unitlabel": "resource units",
+      "nodetype": "computed",
+      "initialvalue": 78,
+      "minvalue": 0,
+      "maxvalue": 500,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 10,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 11,
+        "y": 10,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "sum",
+        "items": [
+          {
+            "factor": 1,
+            "operand": {
+              "kind": "node",
+              "ref": "natural_regeneration"
+            }
+          },
+          {
+            "factor": 1,
+            "operand": {
+              "kind": "node",
+              "ref": "conservation_recovery"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": "short_term_benefit",
+      "name": "Short-term Benefit",
+      "description": "Immediate benefit from harvesting the resource.",
+      "unitlabel": "benefit units",
+      "nodetype": "computed",
+      "initialvalue": 200,
+      "minvalue": 0,
+      "maxvalue": 1000,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 11,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 2,
+        "y": 10,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "multiply",
+        "left": {
+          "kind": "node",
+          "ref": "extraction_effort"
+        },
+        "right": {
+          "kind": "node",
+          "ref": "extraction_rate"
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "extraction_effort",
+      "target": "total_extraction",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "more effort removes more resource",
+      "loopgroup": "commons",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "total_extraction",
+      "target": "shared_resource",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "negative",
+      "label": "extraction depletes commons",
+      "loopgroup": "commons",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "shared_resource",
+      "target": "natural_regeneration",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "healthier commons regenerates more",
+      "loopgroup": "commons",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "conservation_effort",
+      "target": "conservation_recovery",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "conservation restores resource",
+      "loopgroup": "commons",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "total_regeneration",
+      "target": "shared_resource",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "regeneration restores commons",
+      "loopgroup": "commons",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "shared_resource",
+      "target": "short_term_benefit",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "healthier resource supports benefit",
+      "loopgroup": "commons",
+      "curvature": 1,
+      "visibletostudents": 1
+    }
+  ],
+  "shocks": []
+}

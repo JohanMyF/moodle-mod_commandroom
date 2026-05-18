@@ -1,0 +1,493 @@
+{
+  "metadata": {
+    "plugin": "mod_commandroom",
+    "pluginname": "Situation Room",
+    "version": "first-release-archetype",
+    "archetype": "online_course_engagement",
+    "timesteplabel": "week",
+    "stepduration": 1,
+    "stepdurationunit": "week",
+    "totaliterations": 12,
+    "useshocks": false
+  },
+  "nodes": [
+    {
+      "ref": "learner_engagement",
+      "name": "Learner Engagement",
+      "description": "The level of learner interest, confidence, and participation in the online course.",
+      "unitlabel": "engagement points",
+      "nodetype": "stock",
+      "initialvalue": 40,
+      "minvalue": 0,
+      "maxvalue": 100,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 1,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 6,
+        "y": 5,
+        "w": 3,
+        "h": 3
+      },
+      "updateconfig": {
+        "mode": "stock_with_rate",
+        "base": "self",
+        "inflows": [
+          "engagement_gain"
+        ],
+        "outflows": [
+          "engagement_loss"
+        ],
+        "adds": [
+          "engagement_gain"
+        ],
+        "subtracts": [
+          "engagement_loss"
+        ]
+      }
+    },
+    {
+      "ref": "completion_progress",
+      "name": "Completion Progress",
+      "description": "Course completion progress accumulated over time.",
+      "unitlabel": "progress points",
+      "nodetype": "stock",
+      "initialvalue": 0,
+      "minvalue": 0,
+      "maxvalue": 100,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 2,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 11,
+        "y": 5,
+        "w": 3,
+        "h": 3
+      },
+      "updateconfig": {
+        "mode": "stock_with_rate",
+        "base": "self",
+        "inflows": [
+          "completion_gain"
+        ],
+        "outflows": []
+      }
+    },
+    {
+      "ref": "interactive_activities",
+      "name": "Interactive Activities",
+      "description": "How many useful interactive learning activities are provided this week.",
+      "unitlabel": "activity points",
+      "nodetype": "variable",
+      "initialvalue": 5,
+      "minvalue": 0,
+      "maxvalue": 15,
+      "studentcontrolled": true,
+      "visibletostudents": true,
+      "displayorder": 3,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 1,
+        "y": 1,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "feedback_frequency",
+      "name": "Feedback Frequency",
+      "description": "How frequently learners receive meaningful feedback.",
+      "unitlabel": "feedback points",
+      "nodetype": "variable",
+      "initialvalue": 5,
+      "minvalue": 0,
+      "maxvalue": 15,
+      "studentcontrolled": true,
+      "visibletostudents": true,
+      "displayorder": 4,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 5,
+        "y": 1,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "social_presence",
+      "name": "Social Presence",
+      "description": "The extent to which learners feel seen, supported, and part of a learning community.",
+      "unitlabel": "presence points",
+      "nodetype": "variable",
+      "initialvalue": 6,
+      "minvalue": 0,
+      "maxvalue": 15,
+      "studentcontrolled": true,
+      "visibletostudents": true,
+      "displayorder": 5,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 9,
+        "y": 1,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "content_overload",
+      "name": "Content Overload",
+      "description": "How much cognitive pressure the course creates this week.",
+      "unitlabel": "overload points",
+      "nodetype": "variable",
+      "initialvalue": 4,
+      "minvalue": 0,
+      "maxvalue": 20,
+      "studentcontrolled": true,
+      "visibletostudents": true,
+      "displayorder": 6,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 13,
+        "y": 1,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "engagement_gain",
+      "name": "Engagement Gain",
+      "description": "Engagement added by interactivity, feedback, and social presence.",
+      "unitlabel": "engagement points/week",
+      "nodetype": "computed",
+      "initialvalue": 16,
+      "minvalue": 0,
+      "maxvalue": 60,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 7,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 4,
+        "y": 8,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "sum",
+        "items": [
+          {
+            "factor": 1,
+            "operand": {
+              "kind": "node",
+              "ref": "interactive_activities"
+            }
+          },
+          {
+            "factor": 1,
+            "operand": {
+              "kind": "node",
+              "ref": "feedback_frequency"
+            }
+          },
+          {
+            "factor": 1,
+            "operand": {
+              "kind": "node",
+              "ref": "social_presence"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": "engagement_loss",
+      "name": "Engagement Loss",
+      "description": "Engagement lost because of overload and friction.",
+      "unitlabel": "engagement points/week",
+      "nodetype": "computed",
+      "initialvalue": 4,
+      "minvalue": 0,
+      "maxvalue": 60,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 8,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 8,
+        "y": 8,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "sum",
+        "items": [
+          {
+            "factor": 1,
+            "operand": {
+              "kind": "node",
+              "ref": "content_overload"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": "completion_rate",
+      "name": "Completion Rate",
+      "description": "The weekly completion rate created by current engagement.",
+      "unitlabel": "progress/week",
+      "nodetype": "variable",
+      "initialvalue": 0.12,
+      "minvalue": 0,
+      "maxvalue": 0.5,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 9,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 13,
+        "y": 8,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "completion_gain",
+      "name": "Completion Gain",
+      "description": "Progress gained this week from current engagement.",
+      "unitlabel": "progress/week",
+      "nodetype": "computed",
+      "initialvalue": 4.8,
+      "minvalue": 0,
+      "maxvalue": 30,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 10,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 11,
+        "y": 10,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "multiply",
+        "left": {
+          "kind": "node",
+          "ref": "learner_engagement"
+        },
+        "right": {
+          "kind": "node",
+          "ref": "completion_rate"
+        }
+      }
+    },
+    {
+      "ref": "dropout_risk",
+      "name": "Dropout Risk",
+      "description": "Risk of disengagement. High engagement lowers risk.",
+      "unitlabel": "risk index",
+      "nodetype": "computed",
+      "initialvalue": 60,
+      "minvalue": 0,
+      "maxvalue": 100,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 11,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 2,
+        "y": 11,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "sum",
+        "items": [
+          {
+            "factor": 1,
+            "operand": {
+              "kind": "number",
+              "value": 100
+            }
+          },
+          {
+            "factor": -1,
+            "operand": {
+              "kind": "node",
+              "ref": "learner_engagement"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "interactive_activities",
+      "target": "engagement_gain",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "interactivity adds engagement",
+      "loopgroup": "engagement",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "feedback_frequency",
+      "target": "engagement_gain",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "feedback adds engagement",
+      "loopgroup": "engagement",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "social_presence",
+      "target": "engagement_gain",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "belonging adds engagement",
+      "loopgroup": "engagement",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "content_overload",
+      "target": "engagement_loss",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "overload drains engagement",
+      "loopgroup": "engagement",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "engagement_gain",
+      "target": "learner_engagement",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "gain accumulates",
+      "loopgroup": "engagement",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "engagement_loss",
+      "target": "learner_engagement",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "negative",
+      "label": "loss reduces engagement",
+      "loopgroup": "engagement",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "learner_engagement",
+      "target": "completion_gain",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "engagement drives progress",
+      "loopgroup": "completion",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "completion_gain",
+      "target": "completion_progress",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "progress accumulates",
+      "loopgroup": "completion",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "learner_engagement",
+      "target": "dropout_risk",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "negative",
+      "label": "engagement reduces dropout risk",
+      "loopgroup": "risk",
+      "curvature": 0,
+      "visibletostudents": 1
+    }
+  ],
+  "shocks": []
+}

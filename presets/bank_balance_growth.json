@@ -1,0 +1,233 @@
+{
+  "metadata": {
+    "plugin": "mod_commandroom",
+    "pluginname": "Situation Room",
+    "version": "calculation-layer-test-robust",
+    "timesteplabel": "period",
+    "stepduration": 1,
+    "stepdurationunit": "month",
+    "totaliterations": 6,
+    "useshocks": false
+  },
+  "nodes": [
+    {
+      "ref": "balance",
+      "name": "Balance",
+      "description": "The bank balance carried forward from one period to the next.",
+      "unitlabel": "Rands",
+      "interpretation": "Balance = prior Balance + Deposits + Interest Earned - Expenses.",
+      "nodetype": "stock",
+      "initialvalue": 1000,
+      "minvalue": 0,
+      "maxvalue": 5000,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 1,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 5000,
+        "minsize": 60,
+        "maxsize": 180,
+        "x": 2,
+        "y": 2,
+        "w": 3,
+        "h": 3
+      },
+      "updateconfig": {
+        "mode": "stock_with_rate",
+        "base": "self",
+        "inflows": [
+          "deposits",
+          "interest_earned"
+        ],
+        "outflows": [
+          "expenses"
+        ],
+        "adds": [
+          "deposits",
+          "interest_earned"
+        ],
+        "subtracts": [
+          "expenses"
+        ]
+      }
+    },
+    {
+      "ref": "deposits",
+      "name": "Deposits",
+      "description": "Money added during the period.",
+      "unitlabel": "Rands",
+      "nodetype": "flow",
+      "initialvalue": 200,
+      "minvalue": 0,
+      "maxvalue": 1000,
+      "studentcontrolled": true,
+      "visibletostudents": true,
+      "displayorder": 2,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 1000,
+        "minsize": 50,
+        "maxsize": 140,
+        "x": 7,
+        "y": 2,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "expenses",
+      "name": "Expenses",
+      "description": "Money spent during the period.",
+      "unitlabel": "Rands",
+      "nodetype": "flow",
+      "initialvalue": 120,
+      "minvalue": 0,
+      "maxvalue": 1000,
+      "studentcontrolled": true,
+      "visibletostudents": true,
+      "displayorder": 3,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 1000,
+        "minsize": 50,
+        "maxsize": 140,
+        "x": 7,
+        "y": 6,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "interest_rate",
+      "name": "Interest Rate",
+      "description": "Interest rate for the period, entered as a decimal. Example: 0.05 means 5%.",
+      "unitlabel": "Decimal rate",
+      "nodetype": "variable",
+      "initialvalue": 0.05,
+      "minvalue": 0,
+      "maxvalue": 0.2,
+      "studentcontrolled": true,
+      "visibletostudents": true,
+      "displayorder": 4,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 0.2,
+        "minsize": 50,
+        "maxsize": 140,
+        "x": 2,
+        "y": 6,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "interest_earned",
+      "name": "Interest Earned",
+      "description": "Interest generated from the balance and interest rate.",
+      "unitlabel": "Rands",
+      "interpretation": "Interest Earned = Balance \u00d7 Interest Rate.",
+      "nodetype": "computed",
+      "initialvalue": 50,
+      "minvalue": 0,
+      "maxvalue": 1000,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 5,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 1000,
+        "minsize": 50,
+        "maxsize": 140,
+        "x": 12,
+        "y": 2,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "multiply",
+        "left": {
+          "kind": "node",
+          "ref": "balance"
+        },
+        "right": {
+          "kind": "node",
+          "ref": "interest_rate"
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "balance",
+      "target": "interest_earned",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "balance earns interest",
+      "loopgroup": "reinforcing_balance_interest",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "interest_rate",
+      "target": "interest_earned",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "rate determines interest",
+      "loopgroup": "reinforcing_balance_interest",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "interest_earned",
+      "target": "balance",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "interest adds to balance",
+      "loopgroup": "reinforcing_balance_interest",
+      "curvature": 2,
+      "visibletostudents": 1
+    },
+    {
+      "source": "deposits",
+      "target": "balance",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "adds money",
+      "loopgroup": "",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "expenses",
+      "target": "balance",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "negative",
+      "label": "subtracts money",
+      "loopgroup": "",
+      "curvature": 0,
+      "visibletostudents": 1
+    }
+  ],
+  "shocks": []
+}

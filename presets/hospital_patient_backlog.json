@@ -1,0 +1,511 @@
+{
+  "metadata": {
+    "plugin": "mod_commandroom",
+    "pluginname": "Situation Room",
+    "version": "first-release-archetype",
+    "archetype": "backlog_reduction",
+    "timesteplabel": "day",
+    "stepduration": 1,
+    "stepdurationunit": "day",
+    "totaliterations": 30,
+    "useshocks": false
+  },
+  "nodes": [
+    {
+      "ref": "patient_backlog",
+      "name": "Patient Backlog",
+      "description": "Patients waiting to be processed by the clinic.",
+      "unitlabel": "patients",
+      "interpretation": "Backlog increases with arrivals and decreases when patients are processed.",
+      "nodetype": "stock",
+      "initialvalue": 80,
+      "minvalue": 0,
+      "maxvalue": 500,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 1,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 6,
+        "y": 5,
+        "w": 4,
+        "h": 3
+      },
+      "updateconfig": {
+        "mode": "stock_with_rate",
+        "base": "self",
+        "inflows": [
+          "patient_arrivals"
+        ],
+        "outflows": [
+          "patients_processed"
+        ],
+        "adds": [
+          "patient_arrivals"
+        ],
+        "subtracts": [
+          "patients_processed"
+        ]
+      }
+    },
+    {
+      "ref": "patient_arrivals",
+      "name": "Patient Arrivals",
+      "description": "New patients arriving each day.",
+      "unitlabel": "patients/day",
+      "nodetype": "flow",
+      "initialvalue": 35,
+      "minvalue": 0,
+      "maxvalue": 120,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 2,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 1,
+        "y": 5,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "staff_available",
+      "name": "Staff Available",
+      "description": "Number of staff assigned to service today.",
+      "unitlabel": "staff",
+      "nodetype": "variable",
+      "initialvalue": 5,
+      "minvalue": 1,
+      "maxvalue": 20,
+      "studentcontrolled": true,
+      "visibletostudents": true,
+      "displayorder": 3,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 2,
+        "y": 1,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "training_hours",
+      "name": "Training Hours",
+      "description": "Training time chosen today. Training helps later but reduces immediate service capacity.",
+      "unitlabel": "hours/day",
+      "nodetype": "variable",
+      "initialvalue": 2,
+      "minvalue": 0,
+      "maxvalue": 8,
+      "studentcontrolled": true,
+      "visibletostudents": true,
+      "displayorder": 4,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 11,
+        "y": 1,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "patients_per_staff",
+      "name": "Patients per Staff Member",
+      "description": "Base service rate per staff member.",
+      "unitlabel": "patients/staff/day",
+      "nodetype": "variable",
+      "initialvalue": 8,
+      "minvalue": 1,
+      "maxvalue": 20,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 5,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 2,
+        "y": 9,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "training_burden_rate",
+      "name": "Training Burden Rate",
+      "description": "Short-term service capacity lost per training hour.",
+      "unitlabel": "patients/hour",
+      "nodetype": "variable",
+      "initialvalue": 3,
+      "minvalue": 0,
+      "maxvalue": 20,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 6,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 13,
+        "y": 5,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "training_benefit",
+      "name": "Training Benefit",
+      "description": "Accumulated service improvement created by training.",
+      "unitlabel": "patients/day",
+      "interpretation": "Training benefit builds gradually as training is repeated.",
+      "nodetype": "stock",
+      "initialvalue": 0,
+      "minvalue": 0,
+      "maxvalue": 80,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 7,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 11,
+        "y": 9,
+        "w": 3,
+        "h": 3
+      },
+      "updateconfig": {
+        "mode": "stock_with_rate",
+        "base": "self",
+        "inflows": [
+          "training_hours"
+        ],
+        "outflows": []
+      }
+    },
+    {
+      "ref": "base_capacity",
+      "name": "Base Capacity",
+      "description": "Immediate capacity from available staff.",
+      "unitlabel": "patients/day",
+      "nodetype": "computed",
+      "initialvalue": 40,
+      "minvalue": 0,
+      "maxvalue": 400,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 8,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 5,
+        "y": 1,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "multiply",
+        "left": {
+          "kind": "node",
+          "ref": "staff_available"
+        },
+        "right": {
+          "kind": "node",
+          "ref": "patients_per_staff"
+        }
+      }
+    },
+    {
+      "ref": "training_burden",
+      "name": "Training Burden",
+      "description": "Patients not processed today because staff time is being used for training.",
+      "unitlabel": "patients/day",
+      "nodetype": "computed",
+      "initialvalue": 6,
+      "minvalue": 0,
+      "maxvalue": 160,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 9,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 12,
+        "y": 3,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "multiply",
+        "left": {
+          "kind": "node",
+          "ref": "training_hours"
+        },
+        "right": {
+          "kind": "node",
+          "ref": "training_burden_rate"
+        }
+      }
+    },
+    {
+      "ref": "service_capacity",
+      "name": "Service Capacity",
+      "description": "Patients the clinic can process today after training burden and accumulated benefit.",
+      "unitlabel": "patients/day",
+      "nodetype": "computed",
+      "initialvalue": 34,
+      "minvalue": 0,
+      "maxvalue": 500,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 10,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 7,
+        "y": 2,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "sum",
+        "items": [
+          {
+            "factor": 1,
+            "operand": {
+              "kind": "node",
+              "ref": "base_capacity"
+            }
+          },
+          {
+            "factor": 1,
+            "operand": {
+              "kind": "node",
+              "ref": "training_benefit"
+            }
+          },
+          {
+            "factor": -1,
+            "operand": {
+              "kind": "node",
+              "ref": "training_burden"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": "patients_processed",
+      "name": "Patients Processed",
+      "description": "Patients processed today. In this simplified model this equals service capacity.",
+      "unitlabel": "patients/day",
+      "nodetype": "computed",
+      "initialvalue": 34,
+      "minvalue": 0,
+      "maxvalue": 500,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 11,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 11,
+        "y": 5,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "sum",
+        "items": [
+          {
+            "factor": 1,
+            "operand": {
+              "kind": "node",
+              "ref": "service_capacity"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": "patient_waiting_time",
+      "name": "Patient Waiting Time",
+      "description": "Approximate days of waiting at current service capacity.",
+      "unitlabel": "days",
+      "nodetype": "computed",
+      "initialvalue": 2.35,
+      "minvalue": 0,
+      "maxvalue": 60,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 12,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 7,
+        "y": 9,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "divide",
+        "numerator": {
+          "kind": "node",
+          "ref": "patient_backlog"
+        },
+        "denominator": {
+          "kind": "node",
+          "ref": "service_capacity"
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "patient_arrivals",
+      "target": "patient_backlog",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "adds patients",
+      "loopgroup": "backlog",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "patients_processed",
+      "target": "patient_backlog",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "negative",
+      "label": "reduces backlog",
+      "loopgroup": "backlog",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "staff_available",
+      "target": "base_capacity",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "more staff process more patients",
+      "loopgroup": "capacity",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "training_hours",
+      "target": "training_burden",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "training takes staff away today",
+      "loopgroup": "training",
+      "curvature": 1,
+      "visibletostudents": 1
+    },
+    {
+      "source": "training_hours",
+      "target": "training_benefit",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "training improves future service",
+      "loopgroup": "training",
+      "curvature": -1,
+      "visibletostudents": 1
+    },
+    {
+      "source": "service_capacity",
+      "target": "patients_processed",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "capacity governs processing",
+      "loopgroup": "capacity",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "patient_backlog",
+      "target": "patient_waiting_time",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "more backlog means longer waiting",
+      "loopgroup": "waiting",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "service_capacity",
+      "target": "patient_waiting_time",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "negative",
+      "label": "capacity reduces waiting",
+      "loopgroup": "waiting",
+      "curvature": 0,
+      "visibletostudents": 1
+    }
+  ],
+  "shocks": []
+}

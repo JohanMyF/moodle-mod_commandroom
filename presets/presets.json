@@ -1,0 +1,186 @@
+[
+  {
+    "key": "bank_balance_growth",
+    "title": "Bank Balance Growth",
+    "pattern": "Growth / reinforcing accumulation",
+    "description": "Interest earned from a balance is added back into the balance. Useful for compound growth and delayed financial consequences.",
+    "file": "bank_balance_growth.json",
+    "primary_stock": "Balance",
+    "suggested_use": "first_release",
+    "order": 1,
+    "metadata": {
+      "timesteplabel": "period",
+      "stepduration": 1,
+      "stepdurationunit": "month",
+      "totaliterations": 6
+    },
+    "seed_text": {
+      "systembrief": "Interest earned from a balance is added back into the balance. Useful for compound growth and delayed financial consequences.",
+      "studentdecision": "Students choose the student-controlled levers and observe how the system changes over time.",
+      "learninggoal": "Students should explain the behaviour-over-time pattern and identify which decisions improved or harmed the system.",
+      "riskychoice": "Push the most tempting short-term lever without considering delayed or system-wide effects.",
+      "safechoice": "Balance short-term gains with longer-term system health and capacity."
+    }
+  },
+  {
+    "key": "optimum_point_trench",
+    "title": "Optimum Point: Trench Team Size",
+    "pattern": "Optimum point",
+    "description": "Too few workers are slow; too many workers create coordination loss. Useful for showing that more input is not always better.",
+    "file": "optimum_point_trench.json",
+    "primary_stock": "Daily Trench Progress",
+    "suggested_use": "first_release",
+    "order": 2,
+    "metadata": {
+      "timesteplabel": "day",
+      "stepduration": 1,
+      "stepdurationunit": "day",
+      "totaliterations": 6
+    },
+    "seed_text": {
+      "systembrief": "Too few workers are slow; too many workers create coordination loss. Useful for showing that more input is not always better.",
+      "studentdecision": "Students choose the student-controlled levers and observe how the system changes over time.",
+      "learninggoal": "Students should explain the behaviour-over-time pattern and identify which decisions improved or harmed the system.",
+      "riskychoice": "Push the most tempting short-term lever without considering delayed or system-wide effects.",
+      "safechoice": "Balance short-term gains with longer-term system health and capacity."
+    }
+  },
+  {
+    "key": "boom_collapse_public_interest",
+    "title": "Boom and Collapse: Public Interest",
+    "pattern": "Boom and collapse",
+    "description": "Public interest grows through sharing, but fatigue builds until the system collapses. Useful for overshoot-and-collapse discussions.",
+    "file": "boom_collapse_public_interest.json",
+    "primary_stock": "Public Interest",
+    "suggested_use": "first_release",
+    "order": 3,
+    "metadata": {
+      "timesteplabel": "week",
+      "stepduration": 1,
+      "stepdurationunit": "week",
+      "totaliterations": 104
+    },
+    "seed_text": {
+      "systembrief": "Public interest grows through sharing, but fatigue builds until the system collapses. Useful for overshoot-and-collapse discussions.",
+      "studentdecision": "Students choose the student-controlled levers and observe how the system changes over time.",
+      "learninggoal": "Students should explain the behaviour-over-time pattern and identify which decisions improved or harmed the system.",
+      "riskychoice": "Push the most tempting short-term lever without considering delayed or system-wide effects.",
+      "safechoice": "Balance short-term gains with longer-term system health and capacity."
+    }
+  },
+  {
+    "key": "oscillation_seasonal_interest",
+    "title": "Oscillation: Seasonal Public Interest",
+    "pattern": "Oscillation / seasonality",
+    "description": "Public interest rises and falls with a repeating seasonal push while fading over time. Useful for demand, attention, workload, and seasonal cycles.",
+    "file": "oscillation_seasonal_interest.json",
+    "primary_stock": "Public Interest",
+    "suggested_use": "first_release",
+    "order": 4,
+    "metadata": {
+      "timesteplabel": "week",
+      "stepduration": 1,
+      "stepdurationunit": "week",
+      "totaliterations": 104
+    },
+    "seed_text": {
+      "systembrief": "Public interest rises and falls with a repeating seasonal push while fading over time. Useful for demand, attention, workload, and seasonal cycles.",
+      "studentdecision": "Students choose the student-controlled levers and observe how the system changes over time.",
+      "learninggoal": "Students should explain the behaviour-over-time pattern and identify which decisions improved or harmed the system.",
+      "riskychoice": "Push the most tempting short-term lever without considering delayed or system-wide effects.",
+      "safechoice": "Balance short-term gains with longer-term system health and capacity."
+    }
+  },
+  {
+    "key": "hospital_patient_backlog",
+    "title": "Hospital Patient Backlog",
+    "pattern": "Backlog reduction",
+    "description": "Patients arrive, staff process patients, and training improves service over time while reducing short-term capacity.",
+    "file": "hospital_patient_backlog.json",
+    "primary_stock": "Patient Backlog",
+    "suggested_use": "first_release",
+    "order": 5,
+    "metadata": {
+      "timesteplabel": "day",
+      "stepduration": 1,
+      "stepdurationunit": "day",
+      "totaliterations": 30
+    },
+    "seed_text": {
+      "systembrief": "Patients arrive, staff process patients, and training improves service over time while reducing short-term capacity.",
+      "studentdecision": "Students choose the student-controlled levers and observe how the system changes over time.",
+      "learninggoal": "Students should explain the behaviour-over-time pattern and identify which decisions improved or harmed the system.",
+      "riskychoice": "Push the most tempting short-term lever without considering delayed or system-wide effects.",
+      "safechoice": "Balance short-term gains with longer-term system health and capacity."
+    }
+  },
+  {
+    "key": "tragedy_of_the_commons",
+    "title": "Tragedy of the Commons",
+    "pattern": "Shared-resource depletion",
+    "description": "Individual extraction creates short-term benefit but can deplete a shared resource unless conservation effort offsets it.",
+    "file": "tragedy_of_the_commons.json",
+    "primary_stock": "Shared Resource",
+    "suggested_use": "first_release",
+    "order": 6,
+    "metadata": {
+      "timesteplabel": "season",
+      "stepduration": 1,
+      "stepdurationunit": "season",
+      "totaliterations": 24
+    },
+    "seed_text": {
+      "systembrief": "Individual extraction creates short-term benefit but can deplete a shared resource unless conservation effort offsets it.",
+      "studentdecision": "Students choose the student-controlled levers and observe how the system changes over time.",
+      "learninggoal": "Students should explain the behaviour-over-time pattern and identify which decisions improved or harmed the system.",
+      "riskychoice": "Push the most tempting short-term lever without considering delayed or system-wide effects.",
+      "safechoice": "Balance short-term gains with longer-term system health and capacity."
+    }
+  },
+  {
+    "key": "success_to_the_successful",
+    "title": "Success to the Successful",
+    "pattern": "Reinforcing advantage",
+    "description": "Small early advantages compound because success attracts more future success. Useful for inequality, market dominance, and resource allocation.",
+    "file": "success_to_the_successful.json",
+    "primary_stock": "Group A Success / Group B Success",
+    "suggested_use": "first_release",
+    "order": 7,
+    "metadata": {
+      "timesteplabel": "round",
+      "stepduration": 1,
+      "stepdurationunit": "round",
+      "totaliterations": 20
+    },
+    "seed_text": {
+      "systembrief": "Small early advantages compound because success attracts more future success. Useful for inequality, market dominance, and resource allocation.",
+      "studentdecision": "Students choose the student-controlled levers and observe how the system changes over time.",
+      "learninggoal": "Students should explain the behaviour-over-time pattern and identify which decisions improved or harmed the system.",
+      "riskychoice": "Push the most tempting short-term lever without considering delayed or system-wide effects.",
+      "safechoice": "Balance short-term gains with longer-term system health and capacity."
+    }
+  },
+  {
+    "key": "online_course_engagement",
+    "title": "Online Course Engagement",
+    "pattern": "Engagement and completion",
+    "description": "Interactivity, feedback, social presence, and overload influence learner engagement, completion, and dropout risk.",
+    "file": "online_course_engagement.json",
+    "primary_stock": "Learner Engagement",
+    "suggested_use": "first_release",
+    "order": 8,
+    "metadata": {
+      "timesteplabel": "week",
+      "stepduration": 1,
+      "stepdurationunit": "week",
+      "totaliterations": 12
+    },
+    "seed_text": {
+      "systembrief": "Interactivity, feedback, social presence, and overload influence learner engagement, completion, and dropout risk.",
+      "studentdecision": "Students choose the student-controlled levers and observe how the system changes over time.",
+      "learninggoal": "Students should explain the behaviour-over-time pattern and identify which decisions improved or harmed the system.",
+      "riskychoice": "Push the most tempting short-term lever without considering delayed or system-wide effects.",
+      "safechoice": "Balance short-term gains with longer-term system health and capacity."
+    }
+  }
+]

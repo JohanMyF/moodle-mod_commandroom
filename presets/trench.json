@@ -1,0 +1,208 @@
+{
+    "metadata": {
+        "plugin": "mod_commandroom",
+        "pluginname": "Situation Room",
+        "version": "0.1.4-alpha",
+        "exportedat": 1778662307,
+        "timesteplabel": "day",
+        "stepduration": 1,
+        "stepdurationunit": "day",
+        "totaliterations": 6,
+        "useshocks": 0
+    },
+    "nodes": [
+        {
+            "ref": "n1",
+            "name": "Workers",
+            "description": "Number of people assigned to dig the trench.",
+            "unitlabel": "people",
+            "interpretation": "",
+            "nodetype": "variable",
+            "initialvalue": 0,
+            "minvalue": 1,
+            "maxvalue": 25,
+            "studentcontrolled": 1,
+            "visibletostudents": 1,
+            "displayorder": 1,
+            "visual": {
+                "type": "scaling_icon",
+                "icon": "default",
+                "scaleby": "currentvalue",
+                "minvalue": 1,
+                "maxvalue": 25,
+                "minsize": 50,
+                "maxsize": 160,
+                "x": 2,
+                "y": 2,
+                "w": 3,
+                "h": 3
+            }
+        },
+        {
+            "ref": "n2",
+            "name": "Daily Trench Progress",
+            "description": "A useful but deliberately simplified model: more workers help up to an optimum point, then coordination costs reduce progress.",
+            "unitlabel": "trench-units/day",
+            "interpretation": "Progress peaks when Workers are near 10, then falls as crowding and coordination costs increase.",
+            "nodetype": "computed",
+            "initialvalue": 100,
+            "minvalue": 0,
+            "maxvalue": 120,
+            "studentcontrolled": 0,
+            "visibletostudents": 1,
+            "displayorder": 2,
+            "visual": {
+                "type": "scaling_icon",
+                "icon": "default",
+                "scaleby": "currentvalue",
+                "minvalue": 0,
+                "maxvalue": 120,
+                "minsize": 50,
+                "maxsize": 170,
+                "x": 7,
+                "y": 2,
+                "w": 3,
+                "h": 3
+            },
+            "calculation": {
+                "type": "optimum_point",
+                "input": {
+                    "kind": "node",
+                    "ref": "n1"
+                },
+                "optimum": 10,
+                "maximum": 100,
+                "decline": 0.7,
+                "floor": 0
+            }
+        },
+        {
+            "ref": "n3",
+            "name": "Remaining Work",
+            "description": "Total trench work still to be done.",
+            "unitlabel": "trench-units",
+            "interpretation": "Remaining Work = prior Remaining Work - Daily Trench Progress.",
+            "nodetype": "stock",
+            "initialvalue": 500,
+            "minvalue": 0,
+            "maxvalue": 500,
+            "studentcontrolled": 0,
+            "visibletostudents": 1,
+            "displayorder": 3,
+            "visual": {
+                "type": "scaling_icon",
+                "icon": "default",
+                "scaleby": "currentvalue",
+                "minvalue": 0,
+                "maxvalue": 500,
+                "minsize": 50,
+                "maxsize": 180,
+                "x": 12,
+                "y": 2,
+                "w": 3,
+                "h": 3
+            },
+            "updateconfig": {
+                "mode": "stock_with_rate",
+                "base": "self",
+                "inflows": [],
+                "outflows": [
+                    "n2"
+                ]
+            }
+        },
+        {
+            "ref": "n4",
+            "name": "Estimated Days at Current Rate",
+            "description": "A simple indicator that divides remaining work by daily progress.",
+            "unitlabel": "days",
+            "interpretation": "",
+            "nodetype": "computed",
+            "initialvalue": 5,
+            "minvalue": 0,
+            "maxvalue": 100,
+            "studentcontrolled": 0,
+            "visibletostudents": 1,
+            "displayorder": 4,
+            "visual": {
+                "type": "scaling_icon",
+                "icon": "default",
+                "scaleby": "currentvalue",
+                "minvalue": 0,
+                "maxvalue": 100,
+                "minsize": 50,
+                "maxsize": 150,
+                "x": 7,
+                "y": 7,
+                "w": 3,
+                "h": 3
+            },
+            "calculation": {
+                "type": "divide",
+                "numerator": {
+                    "kind": "node",
+                    "ref": "n3"
+                },
+                "denominator": {
+                    "kind": "node",
+                    "ref": "n2"
+                }
+            }
+        }
+    ],
+    "edges": [
+        {
+            "source": "n1",
+            "target": "n2",
+            "relationtype": "nonlinear",
+            "strength": 1,
+            "delayiterations": 0,
+            "functionconfig": "",
+            "polarity": "neutral",
+            "label": "optimum point",
+            "loopgroup": "",
+            "curvature": 0,
+            "visibletostudents": 1
+        },
+        {
+            "source": "n2",
+            "target": "n3",
+            "relationtype": "linear",
+            "strength": 1,
+            "delayiterations": 0,
+            "functionconfig": "",
+            "polarity": "negative",
+            "label": "work completed",
+            "loopgroup": "",
+            "curvature": 0,
+            "visibletostudents": 1
+        },
+        {
+            "source": "n3",
+            "target": "n4",
+            "relationtype": "linear",
+            "strength": 1,
+            "delayiterations": 0,
+            "functionconfig": "",
+            "polarity": "positive",
+            "label": "more work means more days",
+            "loopgroup": "",
+            "curvature": 0,
+            "visibletostudents": 1
+        },
+        {
+            "source": "n2",
+            "target": "n4",
+            "relationtype": "inverse",
+            "strength": 1,
+            "delayiterations": 0,
+            "functionconfig": "",
+            "polarity": "negative",
+            "label": "faster progress means fewer days",
+            "loopgroup": "",
+            "curvature": 0,
+            "visibletostudents": 1
+        }
+    ],
+    "shocks": []
+}

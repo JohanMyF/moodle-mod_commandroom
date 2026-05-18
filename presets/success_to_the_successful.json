@@ -1,0 +1,415 @@
+{
+  "metadata": {
+    "plugin": "mod_commandroom",
+    "pluginname": "Situation Room",
+    "version": "first-release-archetype",
+    "archetype": "success_to_the_successful",
+    "timesteplabel": "round",
+    "stepduration": 1,
+    "stepdurationunit": "round",
+    "totaliterations": 20,
+    "useshocks": false
+  },
+  "nodes": [
+    {
+      "ref": "group_a_success",
+      "name": "Group A Success",
+      "description": "Accumulated success of Group A. Starts slightly ahead.",
+      "unitlabel": "success points",
+      "nodetype": "stock",
+      "initialvalue": 55,
+      "minvalue": 0,
+      "maxvalue": 1000,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 1,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 4,
+        "y": 4,
+        "w": 3,
+        "h": 3
+      },
+      "updateconfig": {
+        "mode": "stock_with_rate",
+        "base": "self",
+        "inflows": [
+          "group_a_new_success"
+        ],
+        "outflows": []
+      }
+    },
+    {
+      "ref": "group_b_success",
+      "name": "Group B Success",
+      "description": "Accumulated success of Group B. Starts slightly behind.",
+      "unitlabel": "success points",
+      "nodetype": "stock",
+      "initialvalue": 45,
+      "minvalue": 0,
+      "maxvalue": 1000,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 2,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 10,
+        "y": 4,
+        "w": 3,
+        "h": 3
+      },
+      "updateconfig": {
+        "mode": "stock_with_rate",
+        "base": "self",
+        "inflows": [
+          "group_b_new_success"
+        ],
+        "outflows": []
+      }
+    },
+    {
+      "ref": "investment_a",
+      "name": "Investment in Group A",
+      "description": "Additional support given to Group A this round.",
+      "unitlabel": "support units",
+      "nodetype": "variable",
+      "initialvalue": 4,
+      "minvalue": 0,
+      "maxvalue": 20,
+      "studentcontrolled": true,
+      "visibletostudents": true,
+      "displayorder": 3,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 2,
+        "y": 1,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "investment_b",
+      "name": "Investment in Group B",
+      "description": "Additional support given to Group B this round.",
+      "unitlabel": "support units",
+      "nodetype": "variable",
+      "initialvalue": 4,
+      "minvalue": 0,
+      "maxvalue": 20,
+      "studentcontrolled": true,
+      "visibletostudents": true,
+      "displayorder": 4,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 12,
+        "y": 1,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "reinforcement_rate",
+      "name": "Reinforcement Rate",
+      "description": "How strongly past success attracts future success.",
+      "unitlabel": "rate",
+      "nodetype": "variable",
+      "initialvalue": 0.08,
+      "minvalue": 0,
+      "maxvalue": 0.3,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 5,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 7,
+        "y": 1,
+        "w": 3,
+        "h": 3
+      }
+    },
+    {
+      "ref": "group_a_reinforcement",
+      "name": "Group A Reinforcement",
+      "description": "Extra success created because Group A is already successful.",
+      "unitlabel": "success points",
+      "nodetype": "computed",
+      "initialvalue": 4.4,
+      "minvalue": 0,
+      "maxvalue": 100,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 6,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 4,
+        "y": 7,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "multiply",
+        "left": {
+          "kind": "node",
+          "ref": "group_a_success"
+        },
+        "right": {
+          "kind": "node",
+          "ref": "reinforcement_rate"
+        }
+      }
+    },
+    {
+      "ref": "group_b_reinforcement",
+      "name": "Group B Reinforcement",
+      "description": "Extra success created because Group B is already successful.",
+      "unitlabel": "success points",
+      "nodetype": "computed",
+      "initialvalue": 3.6,
+      "minvalue": 0,
+      "maxvalue": 100,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 7,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 10,
+        "y": 7,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "multiply",
+        "left": {
+          "kind": "node",
+          "ref": "group_b_success"
+        },
+        "right": {
+          "kind": "node",
+          "ref": "reinforcement_rate"
+        }
+      }
+    },
+    {
+      "ref": "group_a_new_success",
+      "name": "Group A New Success",
+      "description": "New success from direct investment plus reinforcement.",
+      "unitlabel": "success points",
+      "nodetype": "computed",
+      "initialvalue": 8.4,
+      "minvalue": 0,
+      "maxvalue": 200,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 8,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 4,
+        "y": 10,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "sum",
+        "items": [
+          {
+            "factor": 1,
+            "operand": {
+              "kind": "node",
+              "ref": "investment_a"
+            }
+          },
+          {
+            "factor": 1,
+            "operand": {
+              "kind": "node",
+              "ref": "group_a_reinforcement"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": "group_b_new_success",
+      "name": "Group B New Success",
+      "description": "New success from direct investment plus reinforcement.",
+      "unitlabel": "success points",
+      "nodetype": "computed",
+      "initialvalue": 7.6,
+      "minvalue": 0,
+      "maxvalue": 200,
+      "studentcontrolled": false,
+      "visibletostudents": true,
+      "displayorder": 9,
+      "visual": {
+        "type": "scaling_icon",
+        "icon": "default",
+        "minvalue": 0,
+        "maxvalue": 100,
+        "minsize": 50,
+        "maxsize": 150,
+        "x": 10,
+        "y": 10,
+        "w": 3,
+        "h": 3
+      },
+      "calculation": {
+        "type": "sum",
+        "items": [
+          {
+            "factor": 1,
+            "operand": {
+              "kind": "node",
+              "ref": "investment_b"
+            }
+          },
+          {
+            "factor": 1,
+            "operand": {
+              "kind": "node",
+              "ref": "group_b_reinforcement"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "group_a_success",
+      "target": "group_a_reinforcement",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "success attracts resources",
+      "loopgroup": "success_a",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "group_a_reinforcement",
+      "target": "group_a_new_success",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "reinforcement adds success",
+      "loopgroup": "success_a",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "group_a_new_success",
+      "target": "group_a_success",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "new success accumulates",
+      "loopgroup": "success_a",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "group_b_success",
+      "target": "group_b_reinforcement",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "success attracts resources",
+      "loopgroup": "success_b",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "group_b_reinforcement",
+      "target": "group_b_new_success",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "reinforcement adds success",
+      "loopgroup": "success_b",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "group_b_new_success",
+      "target": "group_b_success",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "new success accumulates",
+      "loopgroup": "success_b",
+      "curvature": 0,
+      "visibletostudents": 1
+    },
+    {
+      "source": "investment_a",
+      "target": "group_a_new_success",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "direct support helps A",
+      "loopgroup": "decision",
+      "curvature": 1,
+      "visibletostudents": 1
+    },
+    {
+      "source": "investment_b",
+      "target": "group_b_new_success",
+      "relationtype": "linear",
+      "strength": 1,
+      "delayiterations": 0,
+      "polarity": "positive",
+      "label": "direct support helps B",
+      "loopgroup": "decision",
+      "curvature": -1,
+      "visibletostudents": 1
+    }
+  ],
+  "shocks": []
+}
